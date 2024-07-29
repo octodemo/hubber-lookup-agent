@@ -34,7 +34,7 @@ Bun.serve({
     console.debug("received messages", JSON.stringify(messages, null, 4));
 
     let content = null;
-    if (messages[messages.length - 1].content.includes('ping')) {
+    if (messages[messages.length - 1].content.toLowerCase().includes('ping')) {
       content = "pong";
     } else {
       content = "I'm sorry, I don't understand that command. Please try again.";
