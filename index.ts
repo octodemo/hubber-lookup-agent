@@ -1,4 +1,4 @@
-import { z } from "zod";
+const { z } = require("zod");
 
 // Fields we want to extract from user profile
 const OutputUser = z.object({
@@ -13,12 +13,12 @@ const OutputUser = z.object({
   state: z.string().nullish(),
   bio: z.string().nullish(),
   recent: z.string().nullish(),
-  twitter_username: z.string().transform((val) => val && `[@${val}](https://twitter.com/${val})`).nullish(),
+  twitter_username: z.string().transform((val: any) => val && `[@${val}](https://twitter.com/${val})`).nullish(),
   public_repos: z.number().nullish(),
   public_gists: z.number().nullish(),
   followers: z.number().nullish(),
   following: z.number().nullish(),
-}).transform(({ login, isHubber, msft_alias, ...rest }) => ({
+}).transform(({ login, isHubber, msft_alias, ...rest }: { login: string, isHubber: string, msft_alias: string | null, [key: string]: any }) => ({
   isHubber,
   ...rest
 }));
@@ -46,12 +46,12 @@ async function getHubberInfo(handle: string, token: string) {
     return "user not found."
   }
 
-  const [publicProfile, orgAllProfiles] = await Promise.all([
+  const [publicProfile, orgAllProfiles]: [any, any] = await Promise.all([
     profileResponse.json(),
     orgChartResponse.json()
   ]);
 
-  const orgProfile = orgAllProfiles.find((user: string) => user.github_login === handle) || {};
+  const orgProfile = orgAllProfiles.find((user: { github_login: string }) => user.github_login === handle) || {};
   const isHubber = !!orgProfile.github_login
 
   const profileRaw = {
@@ -105,7 +105,7 @@ Bun.serve({
 
     // get first word of the message 
     const firstWord = input.messages[input.messages.length - 1].content.split(" ")[0];
-    const hubber = await getHubberInfo(firstWord, request.headers.get("X-GitHub-Token"));
+    const hubber = await getHubberInfo(firstWord, request.headers.get("X-GitHub-Token") as any);
 
     const messages = input.messages;
 

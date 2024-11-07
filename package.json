@@ -2,7 +2,8 @@
   "name": "hacker-agent",
   "module": "index.ts",
   "scripts": {
-    "dev": "bun --hot index.ts"
+    "dev": "bun --hot index.ts",
+    "build": "tsc"
   },
   "devDependencies": {
     "@flydotio/dockerfile": "latest",
@@ -11,7 +12,6 @@
   "peerDependencies": {
     "typescript": "^5.0.0"
   },
-  "type": "module",
   "dependencies": {
     "openai": "^4.24.7",
     "zod": "^3.22.4"
