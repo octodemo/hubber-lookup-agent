@@ -60,3 +60,6 @@ jobs:
           slot-name: 'Production'
           package: .
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_2FA01B8006B542989781C5FDBFBB9E26 }}
+
+      - name: Run dist/index.js
+        run: node dist/index.js
